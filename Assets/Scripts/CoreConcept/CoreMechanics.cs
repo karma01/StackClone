@@ -5,7 +5,8 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class CoreMechanics : MonoBehaviour
 {
-    private GameObject tileObject;
+    [SerializeField] private GameObject tileObject;
+    [SerializeField] private GameObject lastTileObject;
 
     private void Update()
     {
@@ -32,10 +33,20 @@ public class CoreMechanics : MonoBehaviour
         {
             touched myTouch = touched.activeTouches[0];
             if (myTouch.phase == TouchPhase.Began)
-
             {
                 Debug.Log("IS Touched");
+                TilesMechanics();
             }
         }
+    }
+    /// <summary>
+    /// This methods is responsible for handling the mechanics of tiles.
+    /// </summary>
+    private void TilesMechanics()
+    {
+        
+        tileObject.transform.localScale = lastTileObject.transform.localScale;
+        lastTileObject = tileObject;
+       
     }
 }
