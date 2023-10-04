@@ -9,11 +9,13 @@ public class CoreMechanics : MonoBehaviour
     private void Awake()
     {
         PresentCube = this;
+        Debug.Log(PresentCube.gameObject.name);
     }
 
     private void Start()
     {
         LastCube = GameObject.Find("Start").GetComponent<CoreMechanics>();
+        Debug.Log(LastCube.gameObject.name);
     }
 
     /// <summary>
@@ -22,7 +24,7 @@ public class CoreMechanics : MonoBehaviour
     public void ProvideMovement()
     {
         transform.position += transform.forward * movementSpeed * Time.deltaTime;           //provides movement
-        Mathf.Sin
+        Debug.Log("called");
     }
 
     /// <summary>
@@ -32,25 +34,23 @@ public class CoreMechanics : MonoBehaviour
     public void StopMovement()
     {
         movementSpeed = 0;
-        Collider cubeCollider = GetComponent<Collider>();
 
         if (Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit))            //check if the box hits any collider
         {
             float leftoverZValue = transform.position.z - LastCube.transform.position.z;
-            float directionToCutEdge;       //determines the sides where the cube needs to be spawned 
-            if(leftoverZValue > 0)     {  directionToCutEdge = 1; }
-            else  directionToCutEdge = -1;
-            ReTransformCube(leftoverZValue,directionToCutEdge);
+            float directionToCutEdge;       //determines the sides where the cube needs to be spawned
+            if (leftoverZValue > 0) { directionToCutEdge = 1; }
+            else directionToCutEdge = -1;
+            ReTransformCube(leftoverZValue, directionToCutEdge);
         }
     }
 
-   
     /// <summary>
     /// Re-transform the cube to the updated position
     /// </summary>
     /// <param name="ZValue"></param>
 
-    private void ReTransformCube(float ZValue,float direction)
+    private void ReTransformCube(float ZValue, float direction)
     {
         float newSize = LastCube.transform.localScale.z - Mathf.Abs(ZValue);         //Calculate the new Size after certain pos is removed i.e ZVa;
         float fallSize = LastCube.transform.localScale.z - newSize;            //.i.e size that got left(fall size)...  gives same value as abs of ZValue.
@@ -59,8 +59,8 @@ public class CoreMechanics : MonoBehaviour
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, newSize);        //set the scale of current cube after removing the fall size value
         transform.position = new Vector3(transform.position.x, transform.position.y, newZPos);
-        float cubeEdge = transform.position.z + (newSize / 2)*direction;
-        float fallingBlockPos = cubeEdge + (fallSize / 2f)*direction;
+        float cubeEdge = transform.position.z + (newSize / 2) * direction;
+        float fallingBlockPos = cubeEdge + (fallSize / 2f) * direction;
 
         SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
     }
@@ -71,7 +71,6 @@ public class CoreMechanics : MonoBehaviour
     private void SpawnFallCube(float cubeZpos, float fallSize)
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-     
 
         cube.transform.position = new Vector3(transform.position.x, transform.position.y, cubeZpos);
         cube.transform.localScale = new Vector3(transform.lossyScale.x, transform.localScale.y, fallSize);
@@ -79,6 +78,7 @@ public class CoreMechanics : MonoBehaviour
         cube.AddComponent<Rigidbody>();
         Destroy(cube.gameObject, 2f);
     }
+
     private void OnDrawGizmos()
     {
         bool cast = Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit);
@@ -88,5 +88,4 @@ public class CoreMechanics : MonoBehaviour
             Debug.Log("Hit");
         }
     }
-
 }
