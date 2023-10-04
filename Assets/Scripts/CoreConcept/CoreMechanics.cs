@@ -1,52 +1,92 @@
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
-using touched = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class CoreMechanics : MonoBehaviour
 {
-    [SerializeField] private GameObject tileObject;
-    [SerializeField] private GameObject lastTileObject;
+    public static CoreMechanics PresentCube { get; private set; }
+    public static CoreMechanics LastCube { get; private set; }
+    [SerializeField] private float movementSpeed;
 
-    private void Update()
+    private void Awake()
     {
-        IndentifyTouch();
+        PresentCube = this;
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        EnhancedTouchSupport.Enable();
-    }
-
-    private void OnDisable()
-    {
-        EnhancedTouchSupport.Disable();
+        LastCube = GameObject.Find("Start").GetComponent<CoreMechanics>();
     }
 
     /// <summary>
-    /// Identify if the player has touched the screen
+    /// procides the movement to the cube
     /// </summary>
-    private void IndentifyTouch()
+    public void ProvideMovement()
     {
-        bool isTouched = touched.fingers[0].isActive;
-        if (isTouched)
+        transform.position += transform.forward * movementSpeed * Time.deltaTime;           //provides movement
+        Mathf.Sin
+    }
+
+    /// <summary>
+    /// stop the movement of the cube
+    /// </summary>
+    ///
+    public void StopMovement()
+    {
+        movementSpeed = 0;
+        Collider cubeCollider = GetComponent<Collider>();
+
+        if (Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit))            //check if the box hits any collider
         {
-            touched myTouch = touched.activeTouches[0];
-            if (myTouch.phase == TouchPhase.Began)
-            {
-                Debug.Log("IS Touched");
-                TilesMechanics();
-            }
+            float leftoverZValue = transform.position.z - LastCube.transform.position.z;
+            float directionToCutEdge;       //determines the sides where the cube needs to be spawned 
+            if(leftoverZValue > 0)     {  directionToCutEdge = 1; }
+            else  directionToCutEdge = -1;
+            ReTransformCube(leftoverZValue,directionToCutEdge);
         }
     }
+
+   
     /// <summary>
-    /// This methods is responsible for handling the mechanics of tiles.
+    /// Re-transform the cube to the updated position
     /// </summary>
-    private void TilesMechanics()
+    /// <param name="ZValue"></param>
+
+    private void ReTransformCube(float ZValue,float direction)
     {
-        
-        tileObject.transform.localScale = lastTileObject.transform.localScale;
-        lastTileObject = tileObject;
-       
+        float newSize = LastCube.transform.localScale.z - Mathf.Abs(ZValue);         //Calculate the new Size after certain pos is removed i.e ZVa;
+        float fallSize = LastCube.transform.localScale.z - newSize;            //.i.e size that got left(fall size)...  gives same value as abs of ZValue.
+
+        float newZPos = LastCube.transform.position.z + (ZValue / 2);           //calculate the position value to change when  the size is adjusted
+
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, newSize);        //set the scale of current cube after removing the fall size value
+        transform.position = new Vector3(transform.position.x, transform.position.y, newZPos);
+        float cubeEdge = transform.position.z + (newSize / 2)*direction;
+        float fallingBlockPos = cubeEdge + (fallSize / 2f)*direction;
+
+        SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
     }
+
+    /// <summary>
+    /// CREATE A CUBE AND SPAWN IT IN THE CUT POSITION
+    /// </summary>
+    private void SpawnFallCube(float cubeZpos, float fallSize)
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+     
+
+        cube.transform.position = new Vector3(transform.position.x, transform.position.y, cubeZpos);
+        cube.transform.localScale = new Vector3(transform.lossyScale.x, transform.localScale.y, fallSize);
+        cube.AddComponent<BoxCollider>();
+        cube.AddComponent<Rigidbody>();
+        Destroy(cube.gameObject, 2f);
+    }
+    private void OnDrawGizmos()
+    {
+        bool cast = Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit);
+        if (cast)
+        {
+            Gizmos.DrawCube(transform.position, transform.lossyScale);
+            Debug.Log("Hit");
+        }
+    }
+
 }
