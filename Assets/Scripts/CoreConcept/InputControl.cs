@@ -5,6 +5,7 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 public class InputControl : MonoBehaviour
 {
+    [SerializeField] private SpawnTiles spawnTiles;
     private void OnEnable()
     {
         EnhancedTouchSupport.Enable();
@@ -33,8 +34,10 @@ public class InputControl : MonoBehaviour
             {
                 Debug.Log("IS Touched");
                 CoreMechanics.PresentCube.StopMovement();
+                spawnTiles.SpawnTilePrefab();           //spawn the next prefab
             }
         }
-        if (CoreMechanics.PresentCube != null) { CoreMechanics.PresentCube.ProvideMovement(); }
+      //  if// (//CoreMechanics.PresentCube != null)
+            { CoreMechanics.PresentCube.ProvideMovement(); }
     }
 }

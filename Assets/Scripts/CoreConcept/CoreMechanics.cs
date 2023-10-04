@@ -43,6 +43,7 @@ public class CoreMechanics : MonoBehaviour
             else directionToCutEdge = -1;
             ReTransformCube(leftoverZValue, directionToCutEdge);
         }
+        LastCube = this;
     }
 
     /// <summary>
@@ -84,6 +85,7 @@ public class CoreMechanics : MonoBehaviour
         bool cast = Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit);
         if (cast)
         {
+            Gizmos.color = Color.yellow;
             Gizmos.DrawCube(transform.position, transform.lossyScale);
             Debug.Log("Hit");
         }
