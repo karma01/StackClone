@@ -12,7 +12,7 @@ public class SpawnTiles : MonoBehaviour
 
         var tile = Instantiate(baseTile);
        tile.transform.position= new Vector3(transform.position.x
-          , CoreMechanics.LastCube.transform.position.y + baseTile.transform.lossyScale.y
+          , CoreMechanics.LastCube.transform.position.y + baseTile.transform.localScale.y
           , transform.position.z);
 
 

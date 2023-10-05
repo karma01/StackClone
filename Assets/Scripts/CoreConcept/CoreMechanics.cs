@@ -35,12 +35,12 @@ public class CoreMechanics : MonoBehaviour
     {
         movementSpeed = 0;
 
-        if (Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit))            //check if the box hits any collider
+      //  if (Physics.BoxCast(transform.position, transform.lossyScale / 2, Vector3.down, out RaycastHit hit))            //check if the box hits any collider
         {
             float leftoverZValue = transform.position.z - LastCube.transform.position.z;
-            float directionToCutEdge;       //determines the sides where the cube needs to be spawned
+            float directionToCutEdge = 1;       //determines the sides where the cube needs to be spawned
             if (leftoverZValue > 0) { directionToCutEdge = 1; }
-            else directionToCutEdge = -1;
+            else if (leftoverZValue < 0) { directionToCutEdge = -1; }
             ReTransformCube(leftoverZValue, directionToCutEdge);
         }
         LastCube = this;
@@ -60,7 +60,7 @@ public class CoreMechanics : MonoBehaviour
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, newSize);        //set the scale of current cube after removing the fall size value
         transform.position = new Vector3(transform.position.x, transform.position.y, newZPos);
-        float cubeEdge = transform.position.z + (newSize / 2) * direction;
+        float cubeEdge = transform.position.z + (newSize / 2) *direction;
         float fallingBlockPos = cubeEdge + (fallSize / 2f) * direction;
 
         SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
