@@ -32,12 +32,16 @@ public class InputControl : MonoBehaviour
             touched myTouch = touched.activeTouches[0];
             if (myTouch.phase == TouchPhase.Began)
             {
+             
                 Debug.Log("IS Touched");
+               
                 CoreMechanics.PresentCube.StopMovement();
                 spawnTiles.SpawnTilePrefab();           //spawn the next prefab
+
             }
         }
-      //  if// (//CoreMechanics.PresentCube != null)
+      
+        if (CoreMechanics.PresentCube != null)
             { CoreMechanics.PresentCube.ProvideMovement(); }
     }
 }

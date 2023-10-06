@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8540660888176868527}
   - component: {fileID: 4211236811336982421}
   - component: {fileID: 7002846181788481353}
+  - component: {fileID: -5522544952042585333}
   m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6404347651030875795}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: -0.44, y: -1.885874, z: 87.96258}
-  m_LocalScale: {x: 2.6000679, y: 0.41147643, z: 2.92044}
+  m_LocalScale: {x: 2.5, y: 0.4, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1518b77b4f3e42346840a59b10bd1558, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,9 +101,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -118,4 +119,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769cb7954d93afc4b9b3311764f0e98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
+  movementSpeed: 10
+  osc: {fileID: 0}
+  isGameOver: 0
+--- !u!114 &-5522544952042585333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404347651030875795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fac650fcc21a254a921964e784f0879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementVector: {x: 0, y: 0, z: 8}
+  movementFactor: 0
+  period: 4
+  spawnPos: 1
+  controlMoveOffset: 5
