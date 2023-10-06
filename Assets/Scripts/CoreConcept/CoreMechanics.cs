@@ -31,6 +31,7 @@ public class CoreMechanics : MonoBehaviour
         osc = GetComponent<Oscillator>();
         forardpos = transform.forward;
         leftpos = LastCube.transform.right;
+        
     }
 
     /// <summary>
@@ -54,6 +55,7 @@ public class CoreMechanics : MonoBehaviour
 
             return;
         }
+       
         float directionToCutEdge = leftoverZValue > 0 ? 1f : -1f;       //determines the sides where the cube needs to be spawned
 
         ReTransformCube(leftoverZValue, directionToCutEdge);        //Transform the cube scale
@@ -91,11 +93,11 @@ public class CoreMechanics : MonoBehaviour
         float cubeEdge = 0f;
         if (spawnPos == SpawnPos.zAxis)
         {
-            cubeEdge = TransformZTile(ZValue, direction, newSize);
+            cubeEdge = TransformZTile(ZValue, direction, newSize); //calculate the edge of cube in y
         }
         else if (spawnPos == SpawnPos.xAxis)          //for xAxis Movement
         {
-            cubeEdge = TransformXTile(ZValue, direction, newSize);
+            cubeEdge = TransformXTile(ZValue, direction, newSize);          //calculate the edge of cube in X
         }
 
         float fallingBlockPos = cubeEdge + (fallSize / 2f) * direction;
@@ -111,7 +113,9 @@ public class CoreMechanics : MonoBehaviour
         transform.localScale = new Vector3(newSize, transform.localScale.y, transform.localScale.z);        //set the scale of current cube after removing the fall size value
         transform.position = new Vector3(newZPos, transform.position.y, transform.position.z);
         cubeEdge = transform.position.x + (newSize / 2) * direction;
+        if(newSize ==LastCube.transform.localScale.x) { Debug.Log("this is called"); }
         return cubeEdge;
+
     }
 
     private float TransformZTile(float ZValue, float direction, float newSize)

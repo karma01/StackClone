@@ -328,11 +328,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: -19.1
+  far clip plane: 1003.03
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.54
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -355,15 +355,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503667318}
-  m_LocalRotation: {x: 0.3575845, y: 0.24184719, z: -0.08049596, w: 0.8984229}
-  m_LocalPosition: {x: -3.23, y: 4.85, z: 39.24}
+  m_LocalRotation: {x: 0.35052332, y: 0.23041186, z: -0.07826204, w: 0.9043887}
+  m_LocalPosition: {x: 0.13, y: -0.04, z: 45.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1924007887}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 42.958, y: 31.006, z: 2.218}
+  m_LocalEulerAnglesHint: {x: 42.074, y: 29.179, z: 1.542}
 --- !u!114 &503667322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23270434, g: 0.79538786, b: 1, a: 1}
+  m_Color: {r: 0.34591186, g: 0.7518613, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -737,7 +737,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -763,7 +763,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1518b77b4f3e42346840a59b10bd1558, type: 2}
+  - {fileID: 2100000, guid: 073edbd1a2ac07d4c907cfc3681279ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -848,7 +848,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1176173956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -2, z: 44}
+  m_LocalPosition: {x: -0.5, y: -1.74, z: 44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -869,6 +869,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTile: {fileID: 7002846181788481353, guid: b38c1b9eb39fe6741993d4df58759ce2,
     type: 3}
+  UIcamera: {fileID: 503667318}
+  increaseColorGradientR: 0
 --- !u!1 &1408666850
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,7 +931,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1518b77b4f3e42346840a59b10bd1558, type: 2}
+  - {fileID: 2100000, guid: 073edbd1a2ac07d4c907cfc3681279ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -967,8 +969,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408666850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: -6.32, z: 44}
-  m_LocalScale: {x: 2.5, y: 5.9647465, z: 3}
+  m_LocalPosition: {x: -0.5, y: -11.11, z: 44}
+  m_LocalScale: {x: 2.5, y: 15.425011, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
