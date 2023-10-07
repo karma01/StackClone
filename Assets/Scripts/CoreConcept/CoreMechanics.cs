@@ -7,10 +7,9 @@ public class CoreMechanics : MonoBehaviour
     public static CoreMechanics LastCube { get; private set; }
     public SpawnPos spawnPos { get; set; }
 
-    [SerializeField] private float movementSpeed;
     [SerializeField] private Oscillator osc;
+    [SerializeField] private SpawnTiles tiles;
     public bool isGameOver = false;
-    private bool Gameover = false;
 
     private Vector3 forardpos;
     private Vector3 leftpos;
@@ -31,7 +30,6 @@ public class CoreMechanics : MonoBehaviour
         osc = GetComponent<Oscillator>();
         forardpos = transform.forward;
         leftpos = LastCube.transform.right;
-        
     }
 
     /// <summary>
@@ -40,7 +38,6 @@ public class CoreMechanics : MonoBehaviour
     ///
     public void StopMovement()
     {
-        movementSpeed = 0;
         if (osc != null)
         {
             osc.period = 0;
@@ -55,7 +52,7 @@ public class CoreMechanics : MonoBehaviour
 
             return;
         }
-       
+
         float directionToCutEdge = leftoverZValue > 0 ? 1f : -1f;       //determines the sides where the cube needs to be spawned
 
         ReTransformCube(leftoverZValue, directionToCutEdge);        //Transform the cube scale
@@ -113,9 +110,8 @@ public class CoreMechanics : MonoBehaviour
         transform.localScale = new Vector3(newSize, transform.localScale.y, transform.localScale.z);        //set the scale of current cube after removing the fall size value
         transform.position = new Vector3(newZPos, transform.position.y, transform.position.z);
         cubeEdge = transform.position.x + (newSize / 2) * direction;
-        if(newSize ==LastCube.transform.localScale.x) { Debug.Log("this is called"); }
+        if (newSize == LastCube.transform.localScale.x) { Debug.Log("this is called"); }
         return cubeEdge;
-
     }
 
     private float TransformZTile(float ZValue, float direction, float newSize)

@@ -1,4 +1,4 @@
-using Cinemachine.Utility;
+using TMPro;
 using UnityEngine;
 
 public class SpawnTiles : MonoBehaviour
@@ -10,10 +10,21 @@ public class SpawnTiles : MonoBehaviour
     [SerializeField] private GameObject UIcamera;
     [SerializeField] private float increaseColorGradientR;
 
+    private int currentScore = 0;
+    private int highScore;
+    [SerializeField] public TextMeshProUGUI currentScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+    private void Start()
+    {
+        highScore = PlayerPrefs.GetInt("Score", currentScore);
+        highScoreText.text = "High Score:" + highScore;
+    }
     public void SpawnTilePrefab()
     {
         if (CoreMechanics.PresentCube.isGameOver == false)
         {
+            currentScore++;
+            currentScoreText.text = "Current Score:" + currentScore.ToString();
             var tile = Instantiate(baseTile);
 
             tileTransform = tile.transform;
@@ -26,7 +37,7 @@ public class SpawnTiles : MonoBehaviour
                 Debug.LogWarning(CoreMechanics.LastCube.gameObject.name);
                 if (spawnPosition == SpawnPos.zAxis) { spawnPosition = SpawnPos.xAxis; } else { spawnPosition = SpawnPos.zAxis; }
                 UIcamera.transform.position = new Vector3(UIcamera.transform.position.x     //when tiles are spawned then update the camera
-                    , UIcamera.transform.position.y + 0.4f
+                    , UIcamera.transform.position.y + 0.1f
                     , UIcamera.transform.position.z);
             }
             else
@@ -34,14 +45,17 @@ public class SpawnTiles : MonoBehaviour
                 tile.transform.position = transform.position;
             }
             tile.spawnPos = spawnPosition;
-            increaseColorGradientR = Mathf.Sin(CoreMechanics.PresentCube.transform.localPosition.y);
+            increaseColorGradientR += CoreMechanics.PresentCube.transform.localScale.x / CoreMechanics.LastCube.transform.position.y;
+            float value = Mathf.Sin(increaseColorGradientR);
 
-            Mathf.Clamp01(increaseColorGradientR);
-          
-           
-
-
-            tile.GetComponent<Renderer>().material.color = new Color(increaseColorGradientR,0,1,1);
+            tile.GetComponent<Renderer>().material.color = new Color(1 - value, 0, 1, 1);
+        }
+       else
+        {
+            if(currentScore>highScore)
+            {
+                PlayerPrefs.SetInt("Score", currentScore);
+            }
         }
     }
 }

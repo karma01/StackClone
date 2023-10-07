@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using touched = UnityEngine.InputSystem.EnhancedTouch.Touch;
@@ -6,6 +7,7 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 public class InputControl : MonoBehaviour
 {
     [SerializeField] private SpawnTiles spawnTiles;
+    [SerializeField] private TextMeshProUGUI text;
     private void OnEnable()
     {
         EnhancedTouchSupport.Enable();
@@ -32,7 +34,8 @@ public class InputControl : MonoBehaviour
             touched myTouch = touched.activeTouches[0];
             if (myTouch.phase == TouchPhase.Began)
             {
-             
+                spawnTiles.currentScoreText.gameObject.SetActive(true);
+             text.gameObject.SetActive(false);
                 Debug.Log("IS Touched");
                
                 CoreMechanics.PresentCube.StopMovement();
