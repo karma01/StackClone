@@ -14,11 +14,15 @@ public class SpawnTiles : MonoBehaviour
     private int highScore;
     [SerializeField] public TextMeshProUGUI currentScoreText;
     [SerializeField] private TextMeshProUGUI highScoreText;
+
     private void Start()
     {
         highScore = PlayerPrefs.GetInt("Score", currentScore);
         highScoreText.text = "High Score:" + highScore;
     }
+    /// <summary>
+    /// Spawn the tiles by checking the axis it needs to be spawned
+    /// </summary>
     public void SpawnTilePrefab()
     {
         if (CoreMechanics.PresentCube.isGameOver == false)
@@ -34,10 +38,9 @@ public class SpawnTiles : MonoBehaviour
               , CoreMechanics.LastCube.transform.position.y + baseTile.transform.localScale.y
               , CoreMechanics.LastCube.transform.position.z);
 
-                Debug.LogWarning(CoreMechanics.LastCube.gameObject.name);
                 if (spawnPosition == SpawnPos.zAxis) { spawnPosition = SpawnPos.xAxis; } else { spawnPosition = SpawnPos.zAxis; }
                 UIcamera.transform.position = new Vector3(UIcamera.transform.position.x     //when tiles are spawned then update the camera
-                    , UIcamera.transform.position.y + 0.1f
+                    , UIcamera.transform.position.y + 0.2f
                     , UIcamera.transform.position.z);
             }
             else
@@ -50,9 +53,9 @@ public class SpawnTiles : MonoBehaviour
 
             tile.GetComponent<Renderer>().material.color = new Color(1 - value, 0, 1, 1);
         }
-       else
+        else
         {
-            if(currentScore>highScore)
+            if (currentScore > highScore)
             {
                 PlayerPrefs.SetInt("Score", currentScore);
             }

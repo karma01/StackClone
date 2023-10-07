@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,7 +45,7 @@ public class CoreMechanics : MonoBehaviour
         }
 
         float leftoverZValue = GetLeftoverZValue();        //the value to cut
-        if (Mathf.Abs(leftoverZValue) >= LastCube.transform.localScale.z)       //if the value exceeeds the edge then..
+        if (Mathf.Abs(leftoverZValue) > LastCube.transform.localScale.z)       //if the value exceeeds the edge then..
         {
             isGameOver = true;
             this.gameObject.AddComponent<Rigidbody>();
@@ -58,6 +59,10 @@ public class CoreMechanics : MonoBehaviour
         ReTransformCube(leftoverZValue, directionToCutEdge);        //Transform the cube scale
     }
 
+    /// <summary>
+    /// Get the leftoverZvalue..i.e the postion of cut tile
+    /// </summary>
+    /// <returns></returns>
     private float GetLeftoverZValue()
     {
         if (spawnPos == SpawnPos.zAxis)
@@ -85,6 +90,7 @@ public class CoreMechanics : MonoBehaviour
     {
         float lastCubeScale = LastCubeScale();
         float newSize = lastCubeScale - Mathf.Abs(ZValue);         //Calculate the new Size after certain pos is removed i.e ZVa;
+
         float fallSize = lastCubeScale - newSize;            //.i.e size that got left(fall size)...  gives same value as abs of ZValue.
 
         float cubeEdge = 0f;
@@ -99,9 +105,34 @@ public class CoreMechanics : MonoBehaviour
 
         float fallingBlockPos = cubeEdge + (fallSize / 2f) * direction;
 
+        CalculateTheEqualityOFSize(newSize);
+
         SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
     }
+    /// <summary>
+    /// Calculate if player nearly gets the same size
+    /// </summary>
+    /// <param name="newSize"></param>
+    private void CalculateTheEqualityOFSize(float newSize)
+    {
+        
+        newSize = Mathf.Round(newSize);
+        float roundScale = Mathf.Round(LastCubeScale());
+        if (newSize==roundScale)
+        {
+            this.transform.localScale = LastCube.transform.localScale;
+            this.transform.position = new Vector3(LastCube.transform.position.x,transform.position.y,LastCube.transform.position.z);
+            Debug.Log("Called");
+        }
+    }
 
+    /// <summary>
+    /// Transform the tile moving in X direction
+    /// </summary>
+    /// <param name="ZValue"></param>
+    /// <param name="direction"></param>
+    /// <param name="newSize"></param>
+    /// <returns></returns>
     private float TransformXTile(float ZValue, float direction, float newSize)
     {
         float cubeEdge;
@@ -114,6 +145,13 @@ public class CoreMechanics : MonoBehaviour
         return cubeEdge;
     }
 
+    /// <summary>
+    /// Transform the  tile moving in z direction
+    /// </summary>
+    /// <param name="ZValue"></param>
+    /// <param name="direction"></param>
+    /// <param name="newSize"></param>
+    /// <returns></returns>
     private float TransformZTile(float ZValue, float direction, float newSize)
     {
         float cubeEdge;
@@ -125,6 +163,10 @@ public class CoreMechanics : MonoBehaviour
         return cubeEdge;
     }
 
+    /// <summary>
+    /// Method to return  the scale
+    /// </summary>
+    /// <returns></returns>
     private float LastCubeScale()
     {
         if (spawnPos == SpawnPos.zAxis)
@@ -144,9 +186,18 @@ public class CoreMechanics : MonoBehaviour
     private void SpawnFallCube(float cubeZpos, float fallSize)
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.GetComponent<Renderer>().material.color = this.gameObject.GetComponent<Renderer>().material.color;
+        if (spawnPos == SpawnPos.zAxis)
+        {
+            cube.transform.position = new Vector3(transform.position.x, transform.position.y, cubeZpos);
+            cube.transform.localScale = new Vector3(transform.lossyScale.x, transform.localScale.y, fallSize);
+        }
+        else if (spawnPos == SpawnPos.xAxis)
+        {
+            cube.transform.position = new Vector3(cubeZpos, transform.position.y, transform.position.z);
+            cube.transform.localScale = new Vector3(fallSize, transform.localScale.y, transform.localScale.z);
+        }
 
-        cube.transform.position = new Vector3(transform.position.x, transform.position.y, cubeZpos);
-        cube.transform.localScale = new Vector3(transform.lossyScale.x, transform.localScale.y, fallSize);
         cube.AddComponent<BoxCollider>();
         cube.AddComponent<Rigidbody>();
         Destroy(cube.gameObject, 2f);

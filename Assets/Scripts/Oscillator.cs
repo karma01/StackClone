@@ -19,6 +19,10 @@ public class Oscillator : MonoBehaviour
         rightPos = transform.right;
 
     }
+    /// <summary>
+    /// provide the motion by takin the direction of oscillation
+    /// </summary>
+    /// <param name="direction"></param>
    
     public void ProvideMotion(Vector3 direction)
     {
