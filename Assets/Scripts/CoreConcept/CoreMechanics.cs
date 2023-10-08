@@ -28,6 +28,7 @@ public class CoreMechanics : MonoBehaviour
 
     private void Start()
     {
+    
         osc = GetComponent<Oscillator>();
         forardpos = transform.forward;
         leftpos = LastCube.transform.right;
@@ -105,25 +106,30 @@ public class CoreMechanics : MonoBehaviour
 
         float fallingBlockPos = cubeEdge + (fallSize / 2f) * direction;
 
-        CalculateTheEqualityOFSize(newSize);
+        if (CalculateTheEqualityOFSize(newSize)) return;
+        else SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
 
-        SpawnFallCube(fallingBlockPos, Mathf.Abs(ZValue));          //past the position and Absolute value of z valuesize
+
     }
     /// <summary>
     /// Calculate if player nearly gets the same size
     /// </summary>
     /// <param name="newSize"></param>
-    private void CalculateTheEqualityOFSize(float newSize)
+    private bool CalculateTheEqualityOFSize(float newSize)
     {
         
-        newSize = Mathf.Round(newSize);
-        float roundScale = Mathf.Round(LastCubeScale());
+        newSize = Mathf.RoundToInt(newSize);
+     
+        float roundScale = Mathf.RoundToInt(LastCube.transform.localScale.y);
         if (newSize==roundScale)
         {
             this.transform.localScale = LastCube.transform.localScale;
             this.transform.position = new Vector3(LastCube.transform.position.x,transform.position.y,LastCube.transform.position.z);
             Debug.Log("Called");
+            VibratePhone.Vibrate(250);
+        return true;
         }
+        return false;
     }
 
     /// <summary>

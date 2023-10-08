@@ -17,6 +17,8 @@ public class SpawnTiles : MonoBehaviour
 
     private void Start()
     {
+        VibratePhone.Vibrate(250);
+
         highScore = PlayerPrefs.GetInt("Score", currentScore);
         highScoreText.text = "High Score:" + highScore;
     }

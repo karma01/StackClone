@@ -32,7 +32,7 @@ public class InputControl : MonoBehaviour
         if (isTouched)
         {
             touched myTouch = touched.activeTouches[0];
-            if (myTouch.phase == TouchPhase.Began)
+            if (myTouch.phase == TouchPhase.Began||Input.GetMouseButtonDown(0))
             {
                 spawnTiles.currentScoreText.gameObject.SetActive(true);
              text.gameObject.SetActive(false);
