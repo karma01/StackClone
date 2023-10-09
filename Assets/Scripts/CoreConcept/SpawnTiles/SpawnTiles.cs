@@ -47,10 +47,11 @@ public class SpawnTiles : MonoBehaviour
             }
             else
             {
+                Debug.LogWarning("Called");
                 tile.transform.position = transform.position;
             }
             tile.spawnPos = spawnPosition;
-            increaseColorGradientR += CoreMechanics.PresentCube.transform.localScale.x / CoreMechanics.LastCube.transform.position.y;
+            increaseColorGradientR += CoreMechanics.PresentCube.transform.localScale.x / CoreMechanics.LastCube.transform.position.y;       ///increase the gradient of cube
             float value = Mathf.Sin(increaseColorGradientR);
 
             tile.GetComponent<Renderer>().material.color = new Color(1 - value, 0, 1, 1);

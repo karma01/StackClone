@@ -55,7 +55,7 @@ public class CoreMechanics : MonoBehaviour
             return;
         }
 
-        float directionToCutEdge = leftoverZValue > 0 ? 1f : -1f;       //determines the sides where the cube needs to be spawned
+        float directionToCutEdge = leftoverZValue > 0 ? 1f :- 1f;       //determines the sides where the cube needs to be spawned
 
         ReTransformCube(leftoverZValue, directionToCutEdge);        //Transform the cube scale
     }
@@ -127,7 +127,8 @@ public class CoreMechanics : MonoBehaviour
             this.transform.position = new Vector3(LastCube.transform.position.x,transform.position.y,LastCube.transform.position.z);
             Debug.Log("Called");
             VibratePhone.Vibrate(250);
-        return true;
+            LastCube = this;
+            return true;
         }
         return false;
     }
